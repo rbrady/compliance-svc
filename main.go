@@ -3,14 +3,14 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/rbrady/cappy/pkg/api"
-	"github.com/rbrady/cappy/pkg/db"
+	"github.com/rbrady/cappy/pkg/data"
 )
 
 func main() {
 
 	// database
-	db.Migrate()
-	// db.AddSampleReports()
+	data.Migrate()
+	//data.AddSampleReports()
 
 	router := gin.Default()
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
@@ -18,14 +18,11 @@ func main() {
 	// part of the example
 	//router.Static("/", "./public")
 
-	// TODO: (rbrady) Does it make sense to separate the service into two parts, so the only action offered to
-	// compliance tools is to post a report and post files?
-
 	// Compliance Tools Actions
 	// Saves a given report and returns an identifier back to the caller
-	// router.POST("/reports", api.PostReport)
+	router.POST("/reports", api.PostReport)
 	// provides path for uploading one or more files for a given report
-	// router.POST("reports/:id/files", api.PostFiles)
+	router.POST("/files/:id", api.PostFiles)
 
 	// Reports actions (Enterprise)
 	// Get a list of reports
@@ -35,11 +32,11 @@ func main() {
 	// Update a report
 	router.POST("/reports/:id", api.UpdateReport)
 	// Delete a report
-	// router.Delete("/reports/:id", api.DeleteReport)
+	router.DELETE("/reports/:id", api.DeleteReport)
 
 	// Report files actions (Enterprise)
 	// gets one or more files for a given report id
-	// router.GET("reports/:reportId/files", api.GetFiles)
+	//router.GET("reports/:reportId/files", api.GetReportFiles)
 
 	router.Run(":8080")
 }

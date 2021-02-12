@@ -1,4 +1,4 @@
-package db
+package data
 
 import (
 	"gorm.io/gorm"
@@ -27,7 +27,7 @@ type Report struct {
 
 type ReportFile struct {
 	gorm.Model
-	ReportID	uint32
+	ReportID	uint
 	FileName 	string	`json:"file_name"`
 	FilePath 	string	`json:"file_path"`
 }
